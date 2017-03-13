@@ -80,6 +80,9 @@ def pdf():
     nowtime = "{}-{}-{}--{}-{}-{}".format(i.year, i.month, i.day, i.hour, i.minute, i.second)
     os.system("cp book/main.pdf {}.pdf".format(nowtime))
 
+def updateMain():
+    progress()
+    
 def error():
     print "HELP:"
     print "Run mode: python file.py [option]"
@@ -88,12 +91,15 @@ def error():
     print "\t hello: Each time you start a new chapter in your diary"
     print "\t bye: When you have finished and you want to compile the code"
     print "\t pdf: If you want to move the pdf files to other folders"
+    print "\t update: Update main.Rnw with the lines in the days.txt file"
 
 if __name__ == "__main__":
+    actions = ["ini", "hello", "bye", "pdf", "update"] 
     if not len(sys.argv) == 2:
         error()
         sys.exit(0)
-    if not ((sys.argv[1] == "ini") or (sys.argv[1]== "hello") or (sys.argv[1]== "bye") or (sys.argv[1]== "pdf")  ):
+        
+    if any(sys.argv[1] in s for s in actions):
         error()
         sys.exit(0)
     
@@ -105,3 +111,5 @@ if __name__ == "__main__":
         bye()
     elif(sys.argv[1]=="pdf"):
         pdf()
+    elif (sys.argv[1]=="update"):
+        updateMain()
