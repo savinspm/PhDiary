@@ -85,7 +85,7 @@ def updateMain():
     
 def error():
     print "HELP:"
-    print "Run mode: python file.py [option]"
+    print "Run mode: python phdiary.py [option]"
     print "[option]:"
     print "\t ini: Initialize the folders."
     print "\t hello: Each time you start a new chapter in your diary"
@@ -99,7 +99,7 @@ if __name__ == "__main__":
         error()
         sys.exit(0)
         
-    if any(sys.argv[1] in s for s in actions):
+    if not any(sys.argv[1] in s for s in actions):
         error()
         sys.exit(0)
     
