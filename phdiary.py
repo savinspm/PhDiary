@@ -1,11 +1,9 @@
-#!/usr/bin/env python
+#Parametros
 # -*- coding: utf-8 -*-
 import os
 import datetime
 import os.path
 import sys
-
-
 
 def ini():
     if not (os.path.exists("book")):
@@ -77,8 +75,13 @@ def bye():
     
     os.system("pdflatex main.tex")
 
+def pdf():
+    i = datetime.datetime.now()
+    nowtime = "{}-{}-{}--{}-{}-{}".format(i.year, i.month, i.day, i.hour, i.minute, i.second)
+    os.system("cp book/main.pdf {}.pdf".format(nowtime))
+
 def error():
-    print "Ayuda de PROGRAMA"
+    print "HELP:"
     print "Run mode: python file.py [option]"
     print "[option]:"
     print "\t ini: Initialize the folders."
@@ -90,13 +93,15 @@ if __name__ == "__main__":
     if not len(sys.argv) == 2:
         error()
         sys.exit(0)
-    if not ((sys.argv[1] == "ini") or (sys.argv[1]== "hello") or (sys.argv[1]== "bye") ):
+    if not ((sys.argv[1] == "ini") or (sys.argv[1]== "hello") or (sys.argv[1]== "bye") or (sys.argv[1]== "pdf")  ):
         error()
         sys.exit(0)
     
     if(sys.argv[1]=="ini"):
         ini()
-    if(sys.argv[1]=="hello"):
+    elif(sys.argv[1]=="hello"):
         hello()
-    if(sys.argv[1]=="bye"):
+    elif(sys.argv[1]=="bye"):
         bye()
+    elif(sys.argv[1]=="pdf"):
+        pdf()
