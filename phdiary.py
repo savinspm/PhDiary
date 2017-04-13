@@ -52,7 +52,7 @@ def progress():
 
 def hello():
     i = datetime.datetime.now()
-    nowtime = "{}-{}-{}--{}-{}-{}".format(i.year, i.month, i.day, i.hour, i.minute, i.second)
+    nowtime = "{}-{}-{}.{}{}{}".format(i.year, i.month, i.day, i.hour, i.minute, i.second)
     testVar = raw_input("Descriptive name: ")
     testVar = testVar.title()
     testVar = testVar.replace(' ', '')
@@ -63,7 +63,7 @@ def hello():
     
     os.mkdir("book/days/{}--{}".format(nowtime, testVar))
     with open("book/days/{0}--{1}/{0}--{1}.Rnw".format(nowtime, testVar), "w") as ins:
-        ins.write("\\chapter{{{0}}}\n".format(testVar))
+        ins.write("\\chapter{{{0} {1}}}\n".format(testVar, nowtime))
         ins.write("{{\\centering \\large \\date{{{}}}\par}}\n".format("{}:{} {}/{}/{}".format(i.hour, i.second, i.year, i.month, i.day)))
         ins.write("\\minitoc% Creating an actual minitoc\n")
         ins.write("\\vspace{2em}\n")
@@ -78,10 +78,17 @@ def bye():
 def pdf():
     i = datetime.datetime.now()
     nowtime = "{}-{}-{}--{}-{}-{}".format(i.year, i.month, i.day, i.hour, i.minute, i.second)
-    os.system("cp book/main.pdf {}.pdf".format(nowtime))
+    os.system("cp book/main.pdf pdf/{}.pdf".format(nowtime))
 
 def updateMain():
     progress()
+
+def install():
+    if not os.path.exists("extras"):
+        os.mkdir("extras")
+    os.chdir("extras")
+    os.system("wget https://github.com/torakiki/sejda/releases/download/v2.13/sejda-console-2.13-bin.zip")
+    os.system("unzip sejda-console-2.13-bin.zip")
     
 def error():
     print "HELP:"
@@ -94,7 +101,7 @@ def error():
     print "\t update: Update main.Rnw with the lines in the days.txt file"
 
 if __name__ == "__main__":
-    actions = ["ini", "hello", "bye", "pdf", "update"] 
+    actions = ["ini", "hello", "bye", "pdf", "update", "install"] 
     if not len(sys.argv) == 2:
         error()
         sys.exit(0)
@@ -113,3 +120,5 @@ if __name__ == "__main__":
         pdf()
     elif (sys.argv[1]=="update"):
         updateMain()
+    elif (sys.argv[1]=="install"):
+        install()
